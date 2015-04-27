@@ -1,4 +1,4 @@
-(function ($) {
+(function($) {
   // register namespace
   $.extend(true, window, {
     "Slick": {
@@ -19,6 +19,7 @@
 
     function destroy() {
       _grid.onKeyDown.unsubscribe(handleKeyDown);
+      _grid = null;
     }
 
     function handleKeyDown(e, args) {
@@ -28,7 +29,9 @@
           if (_copiedRanges) {
             e.preventDefault();
             clearCopySelection();
-            _self.onCopyCancelled.notify({ranges: _copiedRanges});
+            _self.onCopyCancelled.notify({
+              ranges: _copiedRanges
+            });
             _copiedRanges = null;
           }
         }
@@ -39,7 +42,9 @@
             e.preventDefault();
             _copiedRanges = ranges;
             markCopySelection(ranges);
-            _self.onCopyCells.notify({ranges: ranges});
+            _self.onCopyCells.notify({
+              ranges: ranges
+            });
           }
         }
 
@@ -48,7 +53,10 @@
             e.preventDefault();
             clearCopySelection();
             ranges = _grid.getSelectionModel().getSelectedRanges();
-            _self.onPasteCells.notify({from: _copiedRanges, to: ranges});
+            _self.onPasteCells.notify({
+              from: _copiedRanges,
+              to: ranges
+            });
             _copiedRanges = null;
           }
         }

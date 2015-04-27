@@ -65,23 +65,26 @@ li {
 .grid-header #txtSearch {
   margin: 0 4px 0 4px;
   padding: 2px 2px;
+  border-radius: 2px;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border: 1px solid silver;
 }
 
 .options-panel {
-  -moz-border-radius: 6px;
-  -webkit-border-radius: 6px;
-  border: 1px solid silver;
-  background: #f0f0f0;
-  padding: 4px;
-  margin-bottom: 20px;
-  width: 320px;
-  position: absolute;
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border: 1px solid silver;
+	background: #f0f0f0;
+	padding: 4px;
+	margin-bottom: 20px;
+    width:400px;
+	position: absolute;
   top: 0px;
   left: 650px;
 }
+
 
 /* Individual cell styles */
 .slick-cell.task-name {
@@ -122,6 +125,7 @@ li {
 .percent-complete-bar {
   display: inline-block;
   height: 6px;
+  border-radius: 3px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
 }
@@ -162,7 +166,7 @@ input.editor-percentcomplete {
   display: inline-block;
   width: 16px;
   height: 100%;
-  background: url("../images/pencil.gif") no-repeat center center;
+    background: url("../images/pencil.gif") no-repeat center center;
   overflow: visible;
   z-index: 1000;
   float: right;
@@ -178,7 +182,7 @@ input.editor-percentcomplete {
 
   width: 120px;
   height: 140px;
-  display: none;
+    display: none;
   overflow: visible;
 }
 
@@ -193,15 +197,15 @@ input.editor-percentcomplete {
 }
 
 .editor-percentcomplete-buttons {
-  float: right;
+	float: right;
 }
 
 .editor-percentcomplete-buttons button {
-  width: 80px;
+	width: 80px;
 }
 
 .editor-percentcomplete-slider {
-  float: left;
+	float: left;
 }
 
 .editor-percentcomplete-picker:hover .editor-percentcomplete-helper {
@@ -214,17 +218,15 @@ input.editor-percentcomplete {
 
 /* Slick.Editors.YesNoSelect */
 select.editor-yesno {
-  width: 100%;
-  margin: 0;
-  vertical-align: middle;
+    width: 100%;
+    margin: 0;
+	vertical-align: middle;
 }
 
 /* Slick.Editors.Checkbox */
 input.editor-checkbox {
-  margin: 0;
-  height: 100%;
-  padding: 0;
-  border: 0;
+    margin: 0;
+    height: 100%;
+    padding: 0;
+    border: 0;
 }
-
-

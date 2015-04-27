@@ -1,4 +1,4 @@
-(function ($) {
+(function($) {
   $.extend(true, window, {
     Slick: {
       Data: {
@@ -49,12 +49,13 @@
       var indentation = item.level * 15 + "px";
 
       return "<span class='" + options.toggleCssClass + " " +
-          (item.collapsed ? options.toggleCollapsedCssClass : options.toggleExpandedCssClass) +
-          "' style='margin-left:" + indentation +"'>" +
-          "</span>" +
-          "<span class='" + options.groupTitleCssClass + "' level='" + item.level + "'>" +
-            item.title +
-          "</span>";
+        (item.collapsed ? options.toggleCollapsedCssClass : options.toggleExpandedCssClass) +
+        "' style='margin-left:" + indentation + "'>" +
+        "<i class='icon-" + (item.collapsed ? "expand" : "collapse") + "-alt " + options.toggleCssClass + "'></i>&nbsp;" +
+        "</span>" +
+        "<span class='" + options.groupTitleCssClass + "' level='" + item.level + "'>" +
+        item.title +
+        "</span>";
     }
 
     function defaultTotalsCellFormatter(row, cell, value, columnDef, item) {
@@ -73,6 +74,7 @@
       if (_grid) {
         _grid.onClick.unsubscribe(handleGridClick);
         _grid.onKeyDown.unsubscribe(handleGridKeyDown);
+        _grid = null;
       }
     }
 
@@ -122,13 +124,13 @@
       }
     }
 
-        function getRowMetadata(item) {
-            if (options.getRowMetadata) {
-                return options.getRowMetadata(item);
-            }
+    function getRowMetadata(item) {
+      if (options.getRowMetadata) {
+        return options.getRowMetadata(item);
+      }
 
-            return null;
-        }
+      return null;
+    }
 
     function getGroupRowMetadata(item) {
       return {
@@ -159,7 +161,7 @@
     return {
       "init": init,
       "destroy": destroy,
-            "getRowMetadata":       getRowMetadata,
+      "getRowMetadata": getRowMetadata,
       "getGroupRowMetadata": getGroupRowMetadata,
       "getTotalsRowMetadata": getTotalsRowMetadata
     };

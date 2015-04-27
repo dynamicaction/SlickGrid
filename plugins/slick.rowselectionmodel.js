@@ -1,4 +1,4 @@
-(function ($) {
+(function($) {
   // register namespace
   $.extend(true, window, {
     "Slick": {
@@ -21,19 +21,21 @@
       _options = $.extend(true, {}, _defaults, options);
       _grid = grid;
       _handler.subscribe(_grid.onActiveCellChanged,
-          wrapHandler(handleActiveCellChange));
+        wrapHandler(handleActiveCellChange));
       _handler.subscribe(_grid.onKeyDown,
-          wrapHandler(handleKeyDown));
+        wrapHandler(handleKeyDown));
       _handler.subscribe(_grid.onClick,
-          wrapHandler(handleClick));
+        wrapHandler(handleClick));
     }
 
     function destroy() {
       _handler.unsubscribeAll();
+      _handler = null;
+      _grid = null;
     }
 
     function wrapHandler(handler) {
-      return function () {
+      return function() {
         if (!_inHandler) {
           _inHandler = true;
           handler.apply(this, arguments);
@@ -99,7 +101,7 @@
       var activeRow = _grid.getActiveCell();
       if (activeRow && e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey && (e.which == 38 || e.which == 40)) {
         var selectedRows = getSelectedRows();
-        selectedRows.sort(function (x, y) {
+        selectedRows.sort(function(x, y) {
           return x - y
         });
 
@@ -134,8 +136,7 @@
         return false;
       }
 
-      if (!_grid.getOptions().multiSelect || (
-          !e.ctrlKey && !e.shiftKey && !e.metaKey)) {
+      if (!_grid.getOptions().multiSelect || (!e.ctrlKey && !e.shiftKey && !e.metaKey)) {
         return false;
       }
 
@@ -146,7 +147,7 @@
         selection.push(cell.row);
         _grid.setActiveCell(cell.row, cell.cell);
       } else if (idx !== -1 && (e.ctrlKey || e.metaKey)) {
-        selection = $.grep(selection, function (o, i) {
+        selection = $.grep(selection, function(o, i) {
           return (o !== cell.row);
         });
         _grid.setActiveCell(cell.row, cell.cell);

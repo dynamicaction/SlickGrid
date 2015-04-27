@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		<title>SlickGrid example 9: Row reordering</title>
 		<link rel="stylesheet" href="../slick.grid.css" type="text/css" media="screen" charset="utf-8" />
-        <link rel="stylesheet" href="../css/smoothness/jquery-ui-1.8.16.custom.css" type="text/css" media="screen" charset="utf-8" />
+        <link rel="stylesheet" href="../css/smoothness/jquery-ui-1.8.24.custom.css" type="text/css" media="screen" charset="utf-8" />
 		<link rel="stylesheet" href="examples.css" type="text/css" media="screen" charset="utf-8" />
 		<style>
 		.cell-title {
@@ -80,9 +80,9 @@
 		<script src="../lib/firebugx.js"></script>
 
 		<script src="../lib/jquery-1.7.min.js"></script>
-		<script src="../lib/jquery-ui-1.8.16.custom.min.js"></script>
-		<script src="../lib/jquery.event.drag-2.0.min.js"></script>
-		<script src="../lib/jquery.event.drop-2.0.min.js"></script>
+		<script src="../lib/jquery-ui-1.8.24.custom.min.js"></script>
+		<script src="../lib/jquery.event.drag-2.2.js"></script>
+		<script src="../lib/jquery.event.draop-2.2.js"></script>
 
         <script src="../slick.core.js"></script>
         <script src="../plugins/slick.cellrangeselector.js"></script>
@@ -90,6 +90,7 @@
         <script src="../plugins/slick.rowselectionmodel.js"></script>
         <script src="../plugins/slick.rowmovemanager.js"></script>
 		<script src="../slick.editors.js"></script>
+		<script src="../slick.formatters.js"></script>
 		<script src="../slick.grid.js"></script>
 
 		<script>
@@ -112,7 +113,7 @@
                 field: "name",
                 width: 500,
                 cssClass: "cell-title",
-                editor: TextCellEditor,
+                editor: Slick.Editors.Text,
                 validator: requiredFieldValidator
             },
             {
@@ -122,8 +123,8 @@
                 cssClass: "cell-effort-driven",
                 field: "complete",
                 cannotTriggerInsert: true,
-                formatter: BoolCellFormatter,
-                editor: YesNoCheckboxCellEditor
+                formatter: Slick.Formatters.YesNo,
+                editor: Slick.Editors.YesNoSelect
             }
         ];
 
