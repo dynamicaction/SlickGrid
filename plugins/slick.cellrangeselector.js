@@ -20,7 +20,7 @@
         "border": "2px dashed blue"
       }
     };
-    
+
     // Frozen row & column variables
     var _rowOffset;
     var _columnOffset;
@@ -40,7 +40,11 @@
     }
 
     function destroy() {
+      if (_handler) {
         _handler.unsubscribeAll();
+        _handler = null;
+      }
+        _grid = null;
     }
 
     function handleDragInit(e, dd) {
@@ -57,13 +61,13 @@
         if ( _gridOptions.frozenRow > -1 && _isBottomCanvas ) {
             _rowOffset = ( _gridOptions.frozenBottom ) ? $('.grid-canvas-bottom').height() : $('.grid-canvas-top').height();
         }
-        
+
         _isRightCanvas = _$activeCanvas.hasClass( 'grid-canvas-right' );
-        
+
         if ( _gridOptions.frozenColumn > -1 && _isRightCanvas ) {
             _columnOffset = $('.grid-canvas-left').width();
         }
-              
+
         // prevent the grid from cancelling drag'n'drop by default
         e.stopImmediatePropagation();
     }
@@ -98,7 +102,7 @@
             e.pageY - _$activeCanvas.offset().top + _rowOffset
         );
 
-        if ( (!_grid.canCellBeSelected( end.row, end.cell ) ) 
+        if ( (!_grid.canCellBeSelected( end.row, end.cell ) )
              || ( !_isRightCanvas && ( end.cell > _gridOptions.frozenColumn ) )
              || ( _isRightCanvas && ( end.cell <= _gridOptions.frozenColumn ) )
              || ( !_isBottomCanvas && ( end.row >= _gridOptions.frozenRow ) )

@@ -104,6 +104,12 @@
       }
     };
 
+    this.unsubscribeAll = function () {
+      for (var i = handlers.length - 1; i >= 0; i--) {
+        handlers.splice(i, 1);
+      }
+    };
+
     /***
      * Fires an event notifying all subscribers.
      * @method notify
@@ -455,5 +461,3 @@
     };
   }
 })(jQuery);
-
-

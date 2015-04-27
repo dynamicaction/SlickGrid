@@ -105,8 +105,16 @@
 
 
     function destroy() {
-      _handler.unsubscribeAll();
+      _self.onSearch.unsubscribeAll();
+      if (_handler) {
+        _handler.unsubscribeAll();
+        _handler = null;
+      }
+      for (var prop in _self) {
+        _self[prop] = null;
+      }
       $(document.body).unbind("mousedown", handleBodyMouseDown);
+      _grid = null;
     }
 
 
@@ -134,7 +142,7 @@
         var $el = $("<div></div>")
           .addClass("slick-header-menubutton")
           .data("column", column)
-          .data("menu", menu);
+          .data("menu", menu).append("<span></span>");
 
         if (options.buttonCssClass) {
           $el.addClass(options.buttonCssClass);
@@ -179,13 +187,41 @@
         return;
       }
 
-
       if (!$menu) {
         $menu = $("<div class='slick-header-menu'></div>")
           .appendTo(_grid.getContainerNode());
       }
       $menu.empty();
 
+      var handleButton = function handleButtonFn() {
+        var input = $('input.slick-header-search').val().trim(),
+          pattern = /^-?\d+\.?\d*$/;
+        if ((columnDef.filterType === 'number' && (input === '' || pattern.test(input))) || columnDef.filterType !== 'number') {
+          _self.onSearch.notify({
+            column: columnDef.id,
+            query: input
+          });
+          hideMenu();
+        } else {
+           // Open Advanced search here
+          _grid.onOpenFilter.notify({column: columnDef, errorType: 'numeric'});
+          hideMenu();
+        }
+      };
+
+      var handleKey = function handleKeyFn(event, prop) {
+        var input = ($('.slick-header-search').val()) ? $('.slick-header-search').val().trim() : '',
+          pattern = /^-?\d+\.?\d*$/;
+        if (event.keyCode === 13) {
+          handleButton();
+          return;
+        }
+        if (columnDef.filterType === 'number' && input !== '' && !pattern.test(input)) {
+          $('.grid-column-header-validation-warning').text(prop);
+        } else if ((input === '' || pattern.test(input)) && columnDef.filterType === 'number') {
+          $('.grid-column-header-validation-warning').empty();
+        }
+      };
 
       // Construct the menu items.
       for (var i = 0; i < menu.items.length; i++) {
@@ -195,8 +231,15 @@
           .data("command", item.command || '')
           .data("column", columnDef)
           .data("item", item)
+          .addClass(item.command ? '' : 'slick-no-hover')
+          .addClass(item.hidden ? 'hidden' : '')
           .bind("click", handleMenuItemClick)
           .appendTo($menu);
+
+        if (item.separator) {
+          $("<div class='slick-header-menuitem-separator'></div>")
+            .appendTo($menu);
+        }
 
         if (item.disabled) {
           $li.addClass("slick-header-menuitem-disabled");
@@ -217,16 +260,41 @@
           $icon.css("background-image", "url(" + item.iconImage + ")");
         }
 
-        $("<span class='slick-header-menucontent'></span>")
-          .text(item.title)
-          .appendTo($li);
+        if (item.search) {
+          var itemValidationNumeric = item.validationNumeric;
+          $("<span class='slick-header-menucontent relative'></span>")
+            .append(
+              $('<input class="slick-header-search" placeholder="' + item.title + '" type="text"/>')
+               .keyup(function (event) { handleKey(event, itemValidationNumeric); })
+               .keypress(function (event) { handleKey(event, itemValidationNumeric); })
+            )
+            .append(
+              $('<button class="search-btn btn"><i class="icon-search"></i></button>')
+                .click(handleButton)
+            )
+            .append(
+              '<div class="grid-column-header-validation-warning"></div>'
+            )
+            .appendTo($li);
+        } else {
+          $("<span class='slick-header-menucontent'></span>")
+            .text(item.title)
+            .appendTo($li);
+        }
+
+
       }
 
-
       // Position the menu.
-      $menu
-        .offset({ top: $(this).offset().top + $(this).height(), left: $(this).offset().left });
+      var leftOffset = $(this).offset().left;
+      if ($(this).offset().left + $menu.width() + 50 > $(document).width()) {
+        leftOffset = $(this).offset().left - $menu.width();
+      }
 
+      $menu.offset({
+        top: $(this).offset().top + $(this).height(),
+        left: leftOffset
+      });
 
       // Mark the header as active to keep the highlighting.
       $activeHeaderColumn = $menuButton.closest(".slick-header-column");
@@ -248,7 +316,9 @@
         return;
       }
 
-      hideMenu();
+      if (command != '') {
+        hideMenu();
+      }
 
       if (command != null && command != '') {
         _self.onCommand.notify({
@@ -269,7 +339,8 @@
       "destroy": destroy,
 
       "onBeforeMenuShow": new Slick.Event(),
-      "onCommand": new Slick.Event()
+      "onCommand": new Slick.Event(),
+      "onSearch": new Slick.Event()
     });
   }
 })(jQuery);

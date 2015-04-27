@@ -30,6 +30,8 @@
 
     function destroy() {
       _handler.unsubscribeAll();
+      _handler = null;
+      _grid = null;
     }
 
     function wrapHandler(handler) {

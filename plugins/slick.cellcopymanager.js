@@ -19,6 +19,7 @@
 
     function destroy() {
       _grid.onKeyDown.unsubscribe(handleKeyDown);
+      _grid = null;
     }
 
     function handleKeyDown(e, args) {

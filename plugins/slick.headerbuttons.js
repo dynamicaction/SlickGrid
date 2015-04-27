@@ -84,7 +84,14 @@
 
 
     function destroy() {
-      _handler.unsubscribeAll();
+      if (_handler) {
+        _handler.unsubscribeAll();
+        _handler = null;
+      }
+      for (var prop in _self) {
+        _self[prop] = null;
+      }
+      _grid = null;
     }
 
 

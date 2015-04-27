@@ -9,6 +9,7 @@ classes should alter those!
   width: 100%;
   overflow: hidden;
   border-left: 0px;
+  background: none repeat scroll 0 0 #99A1A6;
 }
 
 .slick-header-columns, .slick-headerrow-columns {
@@ -21,11 +22,11 @@ classes should alter those!
 .slick-header-column.ui-state-default {
   position: relative;
   display: inline-block;
-  overflow: hidden;
+  /*overflow: hidden;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
-  height: 16px;
-  line-height: 16px;
+  line-height: 16px*/
+  height: 45px;
   margin: 0;
   padding: 4px;
   border-right: 1px solid silver;
@@ -33,6 +34,7 @@ classes should alter those!
   border-top: 0px;
   border-bottom: 0px;
   float: left;
+
 }
 
 .slick-headerrow-column.ui-state-default {
@@ -69,10 +71,12 @@ classes should alter those!
   right: 0px;
   top: 0;
   height: 100%;
+  z-index: 1;
 }
 
 .slick-resizable-handle-hover {
 	background-color: #ccc;
+    z-index: 1;
 }
 
 .slick-sortable-placeholder {
@@ -103,7 +107,7 @@ classes should alter those!
   z-index: 1;
   padding: 1px 2px 2px 1px;
   margin: 0;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
   cursor: default;
 }
 
@@ -111,7 +115,7 @@ classes should alter those!
 }
 
 .slick-group-toggle {
-  display: inline-block;
+/*  display: inline-block;*/
 }
 
 .slick-cell.highlighted {

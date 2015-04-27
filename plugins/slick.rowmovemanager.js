@@ -36,7 +36,11 @@
         }
 
         function destroy() {
+          if (_handler) {
             _handler.unsubscribeAll();
+            _handler = null;
+          }
+            _grid = null;
         }
 
         function handleDragInit(e, dd) {

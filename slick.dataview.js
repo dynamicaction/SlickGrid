@@ -222,7 +222,7 @@
         }
 
         function getGrouping() {
-            return groupingInfos;
+            return (groupingInfos instanceof Array) ? groupingInfos.slice(0) : groupingInfos;
         }
 
         function setGrouping(groupingInfo) {
@@ -461,7 +461,7 @@
         }
 
         function getGroups() {
-            return groups;
+            return groups instanceof Array ? groups.slice(0) : groups;
         }
 
         function extractGroups(rows, parentGroup) {
@@ -510,6 +510,8 @@
             }
 
             groups.sort(groupingInfos[level].comparer);
+
+            groupsByVal = null;
 
             return groups;
         }
@@ -940,6 +942,20 @@
             this.onRowCountChanged.subscribe(update);
         }
 
+        function destroy() {
+          var i;
+          rows.length = 0;
+          items.length = 0;
+          groups.length = 0;
+          onRowCountChanged = null;
+          onRowsChanged = null;
+          onPagingInfoChanged = null;
+
+          for (var prop in self) {
+            self[prop] = null;
+          }
+        }
+
         $.extend(this, {
             // methods
             "beginUpdate": beginUpdate,
@@ -976,11 +992,13 @@
             "deleteItem": deleteItem,
             "syncGridSelection": syncGridSelection,
             "syncGridCellCssStyles": syncGridCellCssStyles,
+            "destroy": destroy,
 
             // data provider methods
             "getLength": getLength,
             "getItem": getItem,
             "getItemMetadata": getItemMetadata,
+            "flattenGroupedRows": flattenGroupedRows,
 
             // events
             "onRowCountChanged": onRowCountChanged,

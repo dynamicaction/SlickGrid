@@ -38,6 +38,7 @@
     function destroy() {
       if (options.enableForCells) _grid.onMouseEnter.unsubscribe(handleMouseEnter);
       if (options.enableForHeaderCells) _grid.onHeaderMouseEnter.unsubscribe(handleHeaderMouseEnter);
+      _grid = null;
     }
     
     /**
@@ -49,12 +50,20 @@
       if (cell) {
         var $node = $(_grid.getCellNode(cell.row, cell.cell));
         var text;
-        if ($node.innerWidth() < $node[0].scrollWidth) {
-          text = $.trim($node.text());
-          if (options.maxToolTipLength && text.length > options.maxToolTipLength) {
-            text = text.substr(0, options.maxToolTipLength - 3) + "...";
+        if (typeof $node === 'undefined' || $node === null) {
+          return;
+        }
+        try {
+          if ($node.innerWidth() < $node[0].scrollWidth) {
+            text = $.trim($node.text());
+            if (options.maxToolTipLength && text.length > options.maxToolTipLength) {
+              text = text.substr(0, options.maxToolTipLength - 3) + "...";
+            }
+          } else {
+            text = "";
           }
-        } else {
+        }
+        catch (error) {
           text = "";
         }
         $node.attr("title", text);
@@ -69,7 +78,7 @@
     function handleHeaderMouseEnter(e, args) {
       var column = args.column,
           $node = $(e.target).closest(".slick-header-column");
-      if (!column.toolTip) {
+      if (typeof column !== 'undefined' && column.hasOwnProperty('toolTip') && !column.toolTip) {
         $node.attr("title", ($node.innerWidth() < $node[0].scrollWidth) ? column.name : "");
       }
     }

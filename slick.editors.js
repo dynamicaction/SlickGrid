@@ -14,8 +14,10 @@
         "Date": DateEditor,
         "YesNoSelect": YesNoSelectEditor,
         "Checkbox": CheckboxEditor,
+        "ReverseCheckbox": ReverseCheckboxEditor,
         "PercentComplete": PercentCompleteEditor,
-        "LongText": LongTextEditor
+        "LongText": LongTextEditor,
+        "SelectBox": SelectBoxEditor
       }
     }
   });
@@ -38,7 +40,8 @@
     };
 
     this.destroy = function () {
-      $input.remove();
+      args.container = null;
+      $input.off().remove();
     };
 
     this.focus = function () {
@@ -332,6 +335,61 @@
     this.init();
   }
 
+  function ReverseCheckboxEditor(args) {
+    var $select;
+    var defaultValue;
+    var scope = this;
+    this.init = function () {
+      $select = $("<INPUT type=checkbox value='true' class='editor-checkbox' hideFocus>");
+      $select.appendTo(args.container);
+      $select.focus();
+    };
+
+    this.destroy = function () {
+      $select.remove();
+    };
+
+    this.focus = function () {
+      $select.focus();
+    };
+
+    this.loadValue = function (item) {
+      defaultValue = !!item[args.column.field];
+      if (defaultValue) {
+
+        $select.prop('checked', false);
+      } else {
+        $select.prop('checked', true);
+      }
+    };
+
+    this.serializeValue = function () {
+      return $select.prop('checked');
+    };
+
+    this.applyValue = function (item, state) {
+      if (args.grid.getConfig().id === 'grid_administrationAttributes' && args.column.field === 'isDefaultColumn' && state === true) {
+        item.isEnabled = true;
+      } else if(args.grid.getConfig().id === 'grid_administrationAttributes' && args.column.field === 'isEnabled' && state === false) {
+        item.isDefaultColumn = false;
+      }
+      item[args.column.field] = state;
+    };
+
+    this.isValueChanged = function () {
+      return (this.serializeValue() !== defaultValue);
+    };
+
+    this.validate = function () {
+      return {
+        valid: true,
+        msg: null
+      };
+    };
+
+    this.init();
+  }
+
   function PercentCompleteEditor(args) {
     var $input, $picker;
     var defaultValue;
@@ -501,6 +559,75 @@
     };
 
     this.validate = function () {
+      return {
+        valid: true,
+        msg: null
+      };
+    };
+
+    this.init();
+  }
+
+  /* Classic selectbox editor, uses availableValues property (object, key => value) from column config for populating the options.
+  ex. of column config: availableValues: {'text': 'Text', 'int': 'Integer', 'number': 'Number'}, will create 3 option tags
+   */
+  function SelectBoxEditor(args) {
+    var $selectEditor,
+      $select,
+      defaultValue,
+      scope = this;
+    this.init = function () {
+      var optionsHTML = '';
+      angular.forEach(args.column.availableValues, function (value, key) {
+        optionsHTML += '<option value=' + key + '>' + value + '</option>';
+      });
+      $selectEditor = $("<div class='selectEditor'><select tabIndex='0' class='selectBox'>" + optionsHTML + "</select></div>");
+      $selectEditor.appendTo(args.container);
+      $select = $('.selectEditor select');
+      $select.focus().bind('click', function (e) {
+        e.stopImmediatePropagation();
+      }).bind('keydown.nav', function (e) {
+          if (e.keyCode === $.ui.keyCode.UP || e.keyCode === $.ui.keyCode.DOWN) {
+            e.stopImmediatePropagation();
+          }
+        });
+    };
+
+    this.destroy = function () {
+      args.container = null;
+      $select.off().remove();
+    };
+
+    this.focus = function () {
+      select.focus();
+    };
+
+    this.loadValue = function (item) {
+      defaultValue = item[args.column.field];
+      $select.val(defaultValue);
+      $select[0].defaultValue = defaultValue;
+      $select.select();
+    };
+
+    this.serializeValue = function () {
+      return $select.val();
+    };
+
+    this.applyValue = function (item, state) {
+      item[args.column.field] = state;
+    };
+
+    this.isValueChanged = function (e) {
+      return ($select.val() != defaultValue);
+    };
+
+    this.validate = function () {
+      if ($select.val() !== 'text' && $select.val() !== 'number') {
+        return {
+          valid: false,
+          msg: "Please enter a valid type"
+        };
+      }
       return {
         valid: true,
         msg: null
