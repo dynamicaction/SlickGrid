@@ -1,4 +1,4 @@
-(function ($) {
+(function($) {
   // register namespace
   $.extend(true, window, {
     "Slick": {
@@ -32,10 +32,12 @@
 
     function show(range) {
       if (!_elem) {
-        _elem = $("<div></div>", {css: options.selectionCss})
-            .addClass(options.selectionCssClass)
-            .css("position", "absolute")
-            .appendTo(grid.getActiveCanvasNode());
+        _elem = $("<div></div>", {
+            css: options.selectionCss
+          })
+          .addClass(options.selectionCssClass)
+          .css("position", "absolute")
+          .appendTo(grid.getActiveCanvasNode());
       }
 
       var from = grid.getCellNodeBox(range.fromRow, range.fromCell);

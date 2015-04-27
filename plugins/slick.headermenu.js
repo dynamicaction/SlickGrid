@@ -1,4 +1,4 @@
-(function ($) {
+(function($) {
   // register namespace
   $.extend(true, window, {
     "Slick": {
@@ -203,8 +203,11 @@
           });
           hideMenu();
         } else {
-           // Open Advanced search here
-          _grid.onOpenFilter.notify({column: columnDef, errorType: 'numeric'});
+          // Open Advanced search here
+          _grid.onOpenFilter.notify({
+            column: columnDef,
+            errorType: 'numeric'
+          });
           hideMenu();
         }
       };
@@ -265,12 +268,16 @@
           $("<span class='slick-header-menucontent relative'></span>")
             .append(
               $('<input class="slick-header-search" placeholder="' + item.title + '" type="text"/>')
-               .keyup(function (event) { handleKey(event, itemValidationNumeric); })
-               .keypress(function (event) { handleKey(event, itemValidationNumeric); })
+              .keyup(function(event) {
+                handleKey(event, itemValidationNumeric);
+              })
+              .keypress(function(event) {
+                handleKey(event, itemValidationNumeric);
+              })
             )
             .append(
               $('<button class="search-btn btn"><i class="icon-search"></i></button>')
-                .click(handleButton)
+              .click(handleButton)
             )
             .append(
               '<div class="grid-column-header-validation-warning"></div>'
@@ -322,11 +329,11 @@
 
       if (command != null && command != '') {
         _self.onCommand.notify({
-            "grid": _grid,
-            "column": columnDef,
-            "command": command,
-            "item": item
-          }, e, _self);
+          "grid": _grid,
+          "column": columnDef,
+          "command": command,
+          "item": item
+        }, e, _self);
       }
 
       // Stop propagation so that it doesn't register as a header click event.

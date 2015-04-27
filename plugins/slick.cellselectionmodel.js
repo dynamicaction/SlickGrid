@@ -1,4 +1,4 @@
-(function ($) {
+(function($) {
   // register namespace
   $.extend(true, window, {
     "Slick": {
@@ -96,12 +96,12 @@
       var ranges, last;
       var active = _grid.getActiveCell();
 
-      if ( active && e.shiftKey && !e.ctrlKey && !e.altKey &&
-          (e.which == 37 || e.which == 39 || e.which == 38 || e.which == 40) ) {
+      if (active && e.shiftKey && !e.ctrlKey && !e.altKey &&
+        (e.which == 37 || e.which == 39 || e.which == 38 || e.which == 40)) {
 
         ranges = getSelectedRanges();
         if (!ranges.length)
-         ranges.push(new Slick.Range(active.row, active.cell));
+          ranges.push(new Slick.Range(active.row, active.cell));
 
         // keyboard can work with last range only
         last = ranges.pop();
@@ -111,15 +111,15 @@
           last = new Slick.Range(active.row, active.cell);
 
         var dRow = last.toRow - last.fromRow,
-            dCell = last.toCell - last.fromCell,
-            // walking direction
-            dirRow = active.row == last.fromRow ? 1 : -1,
-            dirCell = active.cell == last.fromCell ? 1 : -1;
+          dCell = last.toCell - last.fromCell,
+          // walking direction
+          dirRow = active.row == last.fromRow ? 1 : -1,
+          dirCell = active.cell == last.fromCell ? 1 : -1;
 
         if (e.which == 37) {
           dCell -= dirCell;
         } else if (e.which == 39) {
-          dCell += dirCell ;
+          dCell += dirCell;
         } else if (e.which == 38) {
           dRow -= dirRow;
         } else if (e.which == 40) {
@@ -127,15 +127,14 @@
         }
 
         // define new selection range
-        var new_last = new Slick.Range(active.row, active.cell, active.row + dirRow*dRow, active.cell + dirCell*dCell);
+        var new_last = new Slick.Range(active.row, active.cell, active.row + dirRow * dRow, active.cell + dirCell * dCell);
         if (removeInvalidRanges([new_last]).length) {
           ranges.push(new_last);
           var viewRow = dirRow > 0 ? new_last.toRow : new_last.fromRow;
           var viewCell = dirCell > 0 ? new_last.toCell : new_last.fromCell;
-         _grid.scrollRowIntoView(viewRow);
-         _grid.scrollCellIntoView(viewRow, viewCell);
-        }
-        else
+          _grid.scrollRowIntoView(viewRow);
+          _grid.scrollCellIntoView(viewRow, viewCell);
+        } else
           ranges.push(last);
 
         setSelectedRanges(ranges);

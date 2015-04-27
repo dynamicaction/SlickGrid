@@ -1,4 +1,4 @@
-(function ($) {
+(function($) {
   // Register namespace
   $.extend(true, window, {
     "Slick": {
@@ -21,7 +21,7 @@
       enableForHeaderCells: false,
       maxToolTipLength: null
     };
-    
+
     /**
      * Initialize plugin.
      */
@@ -31,7 +31,7 @@
       if (options.enableForCells) _grid.onMouseEnter.subscribe(handleMouseEnter);
       if (options.enableForHeaderCells) _grid.onHeaderMouseEnter.subscribe(handleHeaderMouseEnter);
     }
-    
+
     /**
      * Destroy plugin.
      */
@@ -40,7 +40,7 @@
       if (options.enableForHeaderCells) _grid.onHeaderMouseEnter.unsubscribe(handleHeaderMouseEnter);
       _grid = null;
     }
-    
+
     /**
      * Handle mouse entering grid cell to add/remove tooltip.
      * @param {jQuery.Event} e - The event
@@ -62,14 +62,13 @@
           } else {
             text = "";
           }
-        }
-        catch (error) {
+        } catch (error) {
           text = "";
         }
         $node.attr("title", text);
       }
     }
-    
+
     /**
      * Handle mouse entering header cell to add/remove tooltip.
      * @param {jQuery.Event} e     - The event
@@ -77,12 +76,12 @@
      */
     function handleHeaderMouseEnter(e, args) {
       var column = args.column,
-          $node = $(e.target).closest(".slick-header-column");
+        $node = $(e.target).closest(".slick-header-column");
       if (typeof column !== 'undefined' && column.hasOwnProperty('toolTip') && !column.toolTip) {
         $node.attr("title", ($node.innerWidth() < $node[0].scrollWidth) ? column.name : "");
       }
     }
-    
+
     // Public API
     $.extend(this, {
       "init": init,

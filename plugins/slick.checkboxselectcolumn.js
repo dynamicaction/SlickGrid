@@ -1,4 +1,4 @@
-(function ($) {
+(function($) {
   // register namespace
   $.extend(true, window, {
     "Slick": {
@@ -45,11 +45,12 @@
     }
 
     function handleSelectedRowsChanged(e, args) {
-      $('.slick-cell input').each(function (index, target) {
+      $('.slick-cell input').each(function(index, target) {
         $(target).attr('disabled', true);
       });
       var selectedRows = _grid.getSelectedRows();
-      var lookup = {}, row, i;
+      var lookup = {},
+        row, i;
       for (i = 0; i < selectedRows.length; i++) {
         row = selectedRows[i];
         lookup[row] = true;
@@ -64,8 +65,8 @@
       _selectedRowsLookup = lookup;
       _grid.render();
       clearTimeout(handler);
-      handler = setTimeout(function () {
-        $('.slick-cell input').each(function (index, target) {
+      handler = setTimeout(function() {
+        $('.slick-cell input').each(function(index, target) {
           $(target).attr('disabled', false);
         });
       }, 50);
@@ -118,13 +119,21 @@
       var item = _grid.getData().getItemByIdx(row);
 
       if (_selectedRowsLookup[row]) {
-        _grid.setSelectedRows($.grep(_grid.getSelectedRows(), function (n) {
+        _grid.setSelectedRows($.grep(_grid.getSelectedRows(), function(n) {
           return n != row;
         }));
-        _grid.onManualSelectedRowsChanged.notify({row: item, checked: false, drawChart: skipChart});
+        _grid.onManualSelectedRowsChanged.notify({
+          row: item,
+          checked: false,
+          drawChart: skipChart
+        });
       } else {
         _grid.setSelectedRows(_grid.getSelectedRows().concat(row));
-        _grid.onManualSelectedRowsChanged.notify({row: item, checked: true, drawChart: skipChart});
+        _grid.onManualSelectedRowsChanged.notify({
+          row: item,
+          checked: true,
+          drawChart: skipChart
+        });
       }
 
     }
@@ -137,7 +146,11 @@
           item;
         for (var i = 0; i < args.length; i++) {
           item = _grid.getData().getItemByIdx(args[i]);
-          _grid.onManualSelectedRowsChanged.notify({row: item, checked: true, drawChart: (i + 1 < args.length)});
+          _grid.onManualSelectedRowsChanged.notify({
+            row: item,
+            checked: true,
+            drawChart: (i + 1 < args.length)
+          });
         }
       }
     }
@@ -168,6 +181,7 @@
     function setColumnDefinition(id, value) {
       _columnDefinitions[id] = value;
     }
+
     function getColumnDefinition() {
       return {
         id: _options.columnId,
@@ -181,7 +195,7 @@
         formatter: checkboxSelectionFormatter,
         pinned: true,
         groupable: false,
-        header:  _columnDefinitions.header ? _columnDefinitions.header : null,
+        header: _columnDefinitions.header ? _columnDefinitions.header : null,
         filterable: false,
         additionalRenderer: _columnDefinitions.additionalRenderer ? _columnDefinitions.additionalRenderer : null,
         aggregatesFn: _columnDefinitions.aggregatesFn ? _columnDefinitions.aggregatesFn : null,
@@ -211,9 +225,7 @@
           result = getColumnDefinition().additionalRenderer(id, _selectedRowsLookup[row]);
         }
 
-        return _selectedRowsLookup[row]
-            ? result + "<input type='checkbox' checked='checked'>"
-            : result + "<input type='checkbox'>";
+        return _selectedRowsLookup[row] ? result + "<input type='checkbox' checked='checked'>" : result + "<input type='checkbox'>";
       }
       return null;
     }

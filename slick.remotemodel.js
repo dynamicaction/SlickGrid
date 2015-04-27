@@ -1,4 +1,4 @@
-(function ($) {
+(function($) {
   /***
    * A sample AJAX data store implementation.
    * Right now, it's hooked up to load Hackernews stories, but can
@@ -7,7 +7,9 @@
   function RemoteModel() {
     // private
     var PAGESIZE = 50;
-    var data = {length: 0};
+    var data = {
+      length: 0
+    };
     var searchstr = "";
     var sortcol = null;
     var sortdir = 1;
@@ -19,8 +21,7 @@
     var onDataLoaded = new Slick.Event();
 
 
-    function init() {
-    }
+    function init() {}
 
 
     function isDataLoaded(from, to) {
@@ -68,32 +69,38 @@
 
       if (fromPage > toPage || ((fromPage == toPage) && data[fromPage * PAGESIZE] !== undefined)) {
         // TODO:  look-ahead
-        onDataLoaded.notify({from: from, to: to});
+        onDataLoaded.notify({
+          from: from,
+          to: to
+        });
         return;
       }
 
       var url = "http://api.thriftdb.com/api.hnsearch.com/items/_search?filter[fields][type][]=submission&q=" + searchstr + "&start=" + (fromPage * PAGESIZE) + "&limit=" + (((toPage - fromPage) * PAGESIZE) + PAGESIZE);
 
       if (sortcol != null) {
-          url += ("&sortby=" + sortcol + ((sortdir > 0) ? "+asc" : "+desc"));
+        url += ("&sortby=" + sortcol + ((sortdir > 0) ? "+asc" : "+desc"));
       }
 
       if (h_request != null) {
         clearTimeout(h_request);
       }
 
-      h_request = setTimeout(function () {
+      h_request = setTimeout(function() {
         for (var i = fromPage; i <= toPage; i++)
           data[i * PAGESIZE] = null; // null indicates a 'requested but not available yet'
 
-        onDataLoading.notify({from: from, to: to});
+        onDataLoading.notify({
+          from: from,
+          to: to
+        });
 
         req = $.jsonp({
           url: url,
           callbackParameter: "callback",
           cache: true,
           success: onSuccess,
-          error: function () {
+          error: function() {
             onError(fromPage, toPage)
           }
         });
@@ -108,14 +115,15 @@
     }
 
     function onSuccess(resp) {
-      var from = resp.request.start, to = from + resp.results.length;
-      data.length = Math.min(parseInt(resp.hits),1000); // limitation of the API
+      var from = resp.request.start,
+        to = from + resp.results.length;
+      data.length = Math.min(parseInt(resp.hits), 1000); // limitation of the API
 
       for (var i = 0; i < resp.results.length; i++) {
         var item = resp.results[i].item;
 
         // Old IE versions can't parse ISO dates, so change to universally-supported format.
-        item.create_ts = item.create_ts.replace(/^(\d+)-(\d+)-(\d+)T(\d+:\d+:\d+)Z$/, "$2/$3/$1 $4 UTC"); 
+        item.create_ts = item.create_ts.replace(/^(\d+)-(\d+)-(\d+)T(\d+:\d+:\d+)Z$/, "$2/$3/$1 $4 UTC");
         item.create_ts = new Date(item.create_ts);
 
         data[from + i] = item;
@@ -124,7 +132,10 @@
 
       req = null;
 
-      onDataLoaded.notify({from: from, to: to});
+      onDataLoaded.notify({
+        from: from,
+        to: to
+      });
     }
 
 
@@ -169,5 +180,11 @@
   }
 
   // Slick.Data.RemoteModel
-  $.extend(true, window, { Slick: { Data: { RemoteModel: RemoteModel }}});
+  $.extend(true, window, {
+    Slick: {
+      Data: {
+        RemoteModel: RemoteModel
+      }
+    }
+  });
 })(jQuery);
