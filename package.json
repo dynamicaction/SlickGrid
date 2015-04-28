@@ -1,0 +1,9 @@
+{
+  "name": "SlickGrid",
+  "version": "2.2",
+  "readme": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dynamicaction/SlickGrid"
+  }
+}
