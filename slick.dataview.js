@@ -478,6 +478,7 @@
                 group = groupsByVal[val];
                 if (!group) {
                     group = new Slick.Group();
+                    group.getter = gi.getter;
                     group.value = val;
                     group.level = level;
                     group.groupingKey = (parentGroup ? parentGroup.groupingKey + groupingDelimiter : '') + val;
@@ -492,6 +493,7 @@
                 group = groupsByVal[val];
                 if (!group) {
                     group = new Slick.Group();
+                    group.getter = gi.getter;
                     group.value = val;
                     group.level = level;
                     group.groupingKey = (parentGroup ? parentGroup.groupingKey + groupingDelimiter : '') + val;
