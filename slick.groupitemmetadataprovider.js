@@ -51,7 +51,7 @@
       return "<span class='" + options.toggleCssClass + " " +
         (item.collapsed ? options.toggleCollapsedCssClass : options.toggleExpandedCssClass) +
         "' style='margin-left:" + indentation + "'>" +
-        "<i class='icon-" + (item.collapsed ? "expand" : "collapse") + "-alt " + options.toggleCssClass + "'></i>&nbsp;" +
+        "<i class='fa fa-" + (item.collapsed ? "plus" : "minus") + "-square-o " + options.toggleCssClass + "'></i>&nbsp;" +
         "</span>" +
         "<span class='" + options.groupTitleCssClass + "' level='" + item.level + "'>" +
         item.title +
