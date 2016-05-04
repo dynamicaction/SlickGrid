@@ -2108,7 +2108,7 @@ if (typeof Slick === "undefined") {
                         appendCellHtml(stringArrayL, row, i, colspan, d);
                     }
                 } else if (( options.frozenColumn > -1 ) && ( i <= options.frozenColumn )) {
-                    appendCellHtml(stringArrayL, row, i, colspan);
+                    appendCellHtml(stringArrayL, row, i, colspan, d);
                 }
 
                 if (colspan > 1) {
