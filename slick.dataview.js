@@ -1059,6 +1059,7 @@
       "syncGridSelection": syncGridSelection,
       "syncGridCellCssStyles": syncGridCellCssStyles,
       "destroy": destroy,
+      "getFilteredAndPagedItems": getFilteredAndPagedItems,
 
       // data provider methods
       "getLength": getLength,
