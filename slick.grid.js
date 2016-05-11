@@ -1764,7 +1764,7 @@ if (typeof Slick === "undefined") {
                     col.sortAsc = true;
                 }
                 var columnIndex = getColumnIndex(col.columnId);
-                if (columnIndex != null) {
+                if (columnIndex != null && (Object.keys(col).indexOf('sortCol') === -1 || typeof col.sortCol !== 'undefined')) {
                     headerColumnEls.eq(columnIndex).addClass("slick-header-column-sorted").find(".slick-sort-indicator").addClass(
                         col.sortAsc ? "slick-sort-indicator-asc" : "slick-sort-indicator-desc").find('i').attr('class', col.sortAsc ? 'icon icon-arrow-up' : 'icon icon-arrow-down');
                     headerColumnEls.eq(columnIndex).addClass("slick-header-column-sorted").find('.slick-sort-index').text(i + 1);
