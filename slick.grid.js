@@ -1790,7 +1790,7 @@ if (typeof Slick === "undefined") {
       if (cols.length > 0) {
         $.each(cols, function(i, col) {
           var columnIndex = getColumnIndex(col.getter);
-          if (columnIndex != null) {
+          if (columnIndex != null && (Object.keys(col).indexOf('sortCol') === -1 || typeof col.sortCol !== 'undefined')) {
             headerColumnEls.eq(columnIndex).addClass("slick-header-column-grouped")
               .find(".slick-group-indicator i").addClass("icon-folder-open");
             headerColumnEls.eq(columnIndex).find(".slick-group-index").text(i + 1);
