@@ -1774,7 +1774,7 @@ if (typeof Slick === "undefined") {
         var columnIndex = getColumnIndex(col.columnId);
         if (columnIndex != null) {
           headerColumnEls.eq(columnIndex).addClass("slick-header-column-sorted").find(".slick-sort-indicator").addClass(
-            col.sortAsc ? "slick-sort-indicator-asc" : "slick-sort-indicator-desc").find('i').attr('class', col.sortAsc ? 'icon icon-arrow-up' : 'icon icon-arrow-down');
+                        col.sortAsc ? "slick-sort-indicator-asc" : "slick-sort-indicator-desc").find('i').attr('class', col.sortAsc ? 'fa fa-arrow-up' : 'fa fa-arrow-down');
           headerColumnEls.eq(columnIndex).addClass("slick-header-column-sorted").find('.slick-sort-index').text(i + 1);
         }
       });
@@ -1784,7 +1784,7 @@ if (typeof Slick === "undefined") {
 
     function setGroupingColumns(cols) {
       var headerColumnEls = $headers.children();
-      headerColumnEls.removeClass("slick-header-column-grouped").find(".slick-group-indicator i").removeClass("icon-folder-open");
+            headerColumnEls.removeClass("slick-header-column-grouped").find(".slick-group-indicator i").removeClass("fa fa-folder-open");
       headerColumnEls.find(".slick-group-index").text('');
 
       if (cols.length > 0) {
@@ -1792,7 +1792,7 @@ if (typeof Slick === "undefined") {
           var columnIndex = getColumnIndex(col.getter);
           if (columnIndex != null && (Object.keys(col).indexOf('sortCol') === -1 || typeof col.sortCol !== 'undefined')) {
             headerColumnEls.eq(columnIndex).addClass("slick-header-column-grouped")
-              .find(".slick-group-indicator i").addClass("icon-folder-open");
+                            .find(".slick-group-indicator i").addClass("fa fa-folder-open");
             headerColumnEls.eq(columnIndex).find(".slick-group-index").text(i + 1);
           }
         });
