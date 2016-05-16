@@ -269,7 +269,7 @@
                .keypress(function (event) { handleKey(event, itemValidationNumeric); })
             )
             .append(
-              $('<button class="search-btn btn"><i class="icon-search"></i></button>')
+              $('<button class="search-btn btn"><i class="fa fa-search"></i></button>')
                 .click(handleButton)
             )
             .append(
