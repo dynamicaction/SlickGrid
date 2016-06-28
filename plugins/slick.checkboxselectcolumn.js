@@ -216,7 +216,8 @@
           var columns = _grid ? _grid.getColumns() : [],
             displayFields = [];
           for (var i = 0; i < columns.length; i++) {
-            if (columns[i].hasOwnProperty('columnType') && columns[i].columnType === 'DisplayField' && dataContext.hasOwnProperty(columns[i].field)) {
+            if (columns[i].hasOwnProperty('columnType') && columns[i].columnType === 'DisplayField' && dataContext.hasOwnProperty(columns[i].field) &&
+            columns[i].field !== 'product_image_url') {
               displayFields.push(dataContext[columns[i].field]);
             }
           }
