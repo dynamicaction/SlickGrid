@@ -3492,13 +3492,13 @@ if (typeof Slick === "undefined") {
             var colspan = getColspan(row, cell);
             var left = columnPosLeft[cell],
                 right = columnPosRight[cell + (colspan > 1 ? colspan - 1 : 0)],
-                scrollRight = scrollLeft + $viewportScrollContainerX.width();
+                scrollRight = $viewportScrollContainerX ? scrollLeft + $viewportScrollContainerX.width() : scrollLeft;
 
-            if (left < scrollLeft) {
+            if (left < scrollLeft && $viewportScrollContainerX) {
                 $viewportScrollContainerX.scrollLeft(left);
                 handleScroll();
                 render();
-            } else if (right > scrollRight) {
+            } else if (right > scrollRight && $viewportScrollContainerX) {
                 $viewportScrollContainerX.scrollLeft(Math.min(left, right - $viewportScrollContainerX[0].clientWidth));
                 handleScroll();
                 render();
