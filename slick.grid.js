@@ -167,6 +167,7 @@ if (typeof Slick === "undefined") {
         var scrollTop = 0;
         var lastRenderedScrollTop = 0;
         var lastRenderedScrollLeft = 0;
+        var lastRenderedTouchTop = 0;
         var prevScrollLeft = 0;
         var scrollLeft = 0;
 
@@ -425,6 +426,10 @@ if (typeof Slick === "undefined") {
                     $viewport
                         .bind("mousewheel", handleMouseWheel);
                 }
+
+                $viewport.bind("touchstart", _handleTouchStart);
+                $viewport.bind("touchmove", _handleTouchMove);
+
                 $headerScroller
                     .bind("contextmenu", handleHeaderContextMenu)
                     .bind("click", handleHeaderClick)
@@ -2871,6 +2876,24 @@ if (typeof Slick === "undefined") {
             scrollLeft = $viewportScrollContainerX[0].scrollLeft + (deltaX * 10);
             _handleScroll(true);
             event.preventDefault();
+        }
+
+        function _handleTouchStart(event) {
+            lastRenderedTouchTop = event.originalEvent.touches[0].clientY;
+        }
+
+        function _handleTouchMove(event) {
+            var currentY = event.originalEvent.touches[0].clientY;
+            var delta = currentY - lastRenderedTouchTop;
+
+            lastRenderedTouchTop = currentY;
+
+            scrollTo($viewportScrollContainerY[0].scrollTop += delta * -1);
+
+
+            if (Math.abs(delta) > 20) {
+                render();
+            }
         }
 
         function handleScroll() {
