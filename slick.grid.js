@@ -914,7 +914,7 @@ if (typeof Slick === "undefined") {
                         if (!sortOpts) {
                             sortOpts = {
                                 columnId: column.id,
-                                sortAsc: true
+                                sortAsc: column.defaultSortAsc
                             };
                             sortColumns.push(sortOpts);
                         } else if (sortColumns.length == 0) {
