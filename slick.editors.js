@@ -17,7 +17,8 @@
         "ReverseCheckbox": ReverseCheckboxEditor,
         "PercentComplete": PercentCompleteEditor,
         "LongText": LongTextEditor,
-        "SelectBox": SelectBoxEditor
+        "SelectBox": SelectBoxEditor,
+        "MultipleCheckboxes": MultipleCheckboxesEditor
       }
     }
   });
@@ -323,6 +324,75 @@
 
     this.isValueChanged = function () {
       return (this.serializeValue() !== defaultValue);
+    };
+
+    this.validate = function () {
+      return {
+        valid: true,
+        msg: null
+      };
+    };
+
+    this.init();
+  }
+
+  function MultipleCheckboxesEditor(args) {
+    var $select;
+    var $selectables;
+    var defaultValue;
+    var scope = this;
+
+    this.init = function () {
+      var elementStr = '',
+          checkBoxesElems = '';
+      angular.forEach(args.column.availableValues, function (value) {
+        checkBoxesElems += '<div class="option"><input type="checkbox" id="' + value + '" /><label for="' + value + '">' + value +'</label></div>'
+      });
+      elementStr = '<div class="multiple-checkboxes-container"><INPUT type="text" value="" class="editor-text" hideFocus disabled><div class="checkboxes">' + checkBoxesElems + '</div></div>';
+      $select = $(elementStr);
+      $select.appendTo(args.container);
+      $selectables = $($select).find("[type='checkbox']");
+    };
+
+    this.destroy = function () {
+      $select.remove();
+    };
+
+    this.loadValue = function (item) {
+      var $inputText = $($select).find("[type='text']");
+
+      defaultValue = item[args.column.field];
+      $($inputText[0]).val(defaultValue.join(', '));
+      if (defaultValue && defaultValue.length > 0) {
+        $selectables.each(function () {
+          if (defaultValue.indexOf($(this).prop('id')) > -1) {
+            $(this).prop('checked', true);
+          }
+        });
+      } else {
+        $selectables.each(function () {
+          $(this).prop('checked', false);
+        });
+      }
+    };
+
+    this.serializeValue = function () {
+      var $selectables = $($select).find("[type='checkbox']"),
+          result = [];
+          $selectables.each(function () {
+            if ($(this).prop('checked')) {
+              result.push($(this).prop('id'));
+            }
+          });
+      return result;
+    };
+
+    this.applyValue = function (item, state) {
+      item[args.column.field] = state;
+    };
+
+    this.isValueChanged = function () {
+      return (this.serializeValue().join('') !== defaultValue.join(''));
     };
 
     this.validate = function () {
