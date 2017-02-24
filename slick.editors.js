@@ -348,7 +348,7 @@
       angular.forEach(args.column.availableValues, function (value) {
         checkBoxesElems += '<div class="option"><input type="checkbox" id="' + value + '" /><label for="' + value + '">' + value +'</label></div>'
       });
-      elementStr = '<div class="multiple-checkboxes-container"><INPUT type="text" value="" class="editor-text" hideFocus disabled><div class="checkboxes">' + checkBoxesElems + '</div></div>';
+      elementStr = '<div class="multiple-checkboxes-container"><div class="editor-text"></div><div class="checkboxes">' + checkBoxesElems + '</div></div>';
       $select = $(elementStr);
       $select.appendTo(args.container);
       $selectables = $($select).find("[type='checkbox']");
@@ -359,10 +359,10 @@
     };
 
     this.loadValue = function (item) {
-      var $inputText = $($select).find("[type='text']");
+      var $inputText = $($select).find(".editor-text");
 
       defaultValue = item[args.column.field];
-      $($inputText[0]).val(defaultValue.join(', '));
+      $($inputText[0]).text(defaultValue.join(', '));
       if (defaultValue && defaultValue.length > 0) {
         $selectables.each(function () {
           if (defaultValue.indexOf($(this).prop('id')) > -1) {
