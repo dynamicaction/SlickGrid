@@ -339,27 +339,46 @@
   function MultipleCheckboxesEditor(args) {
     var $select;
     var $selectables;
+    var $inputText;
     var defaultValue;
     var scope = this;
+    var activeCell = args.grid.getActiveCell();
+    var setOnScroll = function () {
+      args.grid.setActiveCell(activeCell.row, activeCell.cell);
+    };
 
     this.init = function () {
       var elementStr = '',
-          checkBoxesElems = '';
+          checkBoxesElems = '',
+          containerPos = $(args.container)[0].getBoundingClientRect(),
+          marTop = 0;
+
       angular.forEach(args.column.availableValues, function (value) {
-        checkBoxesElems += '<div class="option"><input type="checkbox" id="' + value + '" /><label for="' + value + '">' + value +'</label></div>'
+        checkBoxesElems += '<div class="option"><input type="checkbox" id="' + value + '" /><label for="' + value + '">' + value +'</label></div>';
       });
-      elementStr = '<div class="multiple-checkboxes-container"><div class="editor-text"></div><div class="checkboxes">' + checkBoxesElems + '</div></div>';
+      elementStr = '<div class="multiple-checkboxes-container"><div class="editor-text"><span></span></div><div class="checkboxes">' + checkBoxesElems + '</div></div>';
       $select = $(elementStr);
-      $select.appendTo(args.container);
+      $select.appendTo('body');
+      marTop = containerPos.top + $select.height() > window.innerHeight ? -(window.innerHeight - containerPos.top + $select.height()) : -(window.innerHeight - containerPos.top);
+      $select.css({ 'margin-top': marTop, 'margin-left': containerPos.left, 'position': 'absolute', width: containerPos.width / 2 });
+
+      if (containerPos.top + $select.height() > window.innerHeight) {
+        $select.find('.editor-text').css({ 'margin-top': $select.height(), 'margin-bottom': -($select.height()) });
+      }
       $selectables = $($select).find("[type='checkbox']");
+
+      args.grid.onScroll.subscribe(setOnScroll);
     };
 
     this.destroy = function () {
+      args.grid.onScroll.unsubscribe(setOnScroll);
+      $inputText.remove();
+      $selectables.remove();
       $select.remove();
     };
 
     this.loadValue = function (item) {
-      var $inputText = $($select).find(".editor-text");
+      $inputText = $($select).find(".editor-text > span");
 
       defaultValue = item[args.column.field];
       $($inputText[0]).text(defaultValue.join(', '));
