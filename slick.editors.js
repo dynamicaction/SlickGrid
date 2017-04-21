@@ -381,28 +381,40 @@
       $inputText = $($select).find(".editor-text > span");
 
       defaultValue = item[args.column.field];
-      $($inputText[0]).text(defaultValue.join(', '));
-      if (defaultValue && defaultValue.length > 0) {
+
+
+      if (!defaultValue) {
         $selectables.each(function () {
-          if (defaultValue.indexOf($(this).prop('id')) > -1) {
+          if (args.column.availableValues.indexOf($(this).prop('id')) > -1) {
             $(this).prop('checked', true);
           }
         });
+        defaultValue = [];
       } else {
-        $selectables.each(function () {
-          $(this).prop('checked', false);
-        });
+        $($inputText[0]).text(defaultValue.join(', '));
+
+        if (defaultValue.length > 0) {
+          $selectables.each(function () {
+            if (defaultValue.indexOf($(this).prop('id')) > -1) {
+              $(this).prop('checked', true);
+            }
+          });
+        } else {
+          $selectables.each(function () {
+            $(this).prop('checked', false);
+          });
+        }
       }
     };
 
     this.serializeValue = function () {
       var $selectables = $($select).find("[type='checkbox']"),
-          result = [];
-          $selectables.each(function () {
-            if ($(this).prop('checked')) {
-              result.push($(this).prop('id'));
-            }
-          });
+        result = [];
+      $selectables.each(function () {
+        if ($(this).prop('checked')) {
+          result.push($(this).prop('id'));
+        }
+      });
       return result;
     };
 
