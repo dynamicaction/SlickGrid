@@ -829,7 +829,7 @@ if (typeof Slick === "undefined") {
                     header.find('.slick-column-name').html(_.escape(m.name));
                 }
 
-                header.width(m.width - headerColumnWidthDiff)
+                header.css('width', m.width - headerColumnWidthDiff)
                     .attr("id", "" + uid + m.id)
                     .attr("title", m.toolTip || "")
                     .data("column", m)
@@ -1717,7 +1717,7 @@ if (typeof Slick === "undefined") {
                 h = $(headers[i]);
 
                 if (h.width() !== columns[i].width - headerColumnWidthDiff) {
-                    h.width(columns[i].width - headerColumnWidthDiff);
+                    h.css('width', columns[i].width - headerColumnWidthDiff);
                 }
             }
 
