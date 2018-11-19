@@ -105,6 +105,7 @@
 
 
     function destroy() {
+      _self.hideMenu.unsubscribeAll();
       _self.onSearch.unsubscribeAll();
       if (_handler) {
         _handler.unsubscribeAll();
@@ -231,6 +232,7 @@
           .data("command", item.command || '')
           .data("column", columnDef)
           .data("item", item)
+          .data("preventHide", item.preventHide ? true : false)
           .addClass(item.command ? '' : 'slick-no-hover')
           .addClass(item.hidden ? 'hidden' : '')
           .bind("click", handleMenuItemClick)
@@ -309,6 +311,7 @@
 
     function handleMenuItemClick(e) {
       var command = $(this).data("command");
+      var preventHide = $(this).data("preventHide");
       var columnDef = $(this).data("column");
       var item = $(this).data("item");
 
@@ -316,17 +319,17 @@
         return;
       }
 
-      if (command != '') {
+      if (!preventHide) {
         hideMenu();
       }
 
       if (command != null && command != '') {
         _self.onCommand.notify({
-            "grid": _grid,
-            "column": columnDef,
-            "command": command,
-            "item": item
-          }, e, _self);
+          "grid": _grid,
+          "column": columnDef,
+          "command": command,
+          "item": item
+        }, e, _self);
       }
 
       // Stop propagation so that it doesn't register as a header click event.
@@ -338,9 +341,13 @@
       "init": init,
       "destroy": destroy,
 
+      "hideMenu": new Slick.Event(),
+
       "onBeforeMenuShow": new Slick.Event(),
       "onCommand": new Slick.Event(),
       "onSearch": new Slick.Event()
     });
+
+    this.hideMenu.subscribe(hideMenu);
   }
 })(jQuery);
