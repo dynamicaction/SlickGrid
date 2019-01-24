@@ -274,7 +274,6 @@ if (typeof Slick === "undefined") {
 
             $container
                 .empty()
-                .css("overflow", "hidden")
                 .css("outline", 0)
                 .addClass(uid)
                 .addClass("ui-widget");
