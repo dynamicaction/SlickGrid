@@ -189,6 +189,7 @@
         selectTop5: _columnDefinitions.selectTop5 ? _columnDefinitions.selectTop5 : false,
         selectTop10: _columnDefinitions.selectTop10 ? _columnDefinitions.selectTop10 : false,
         selectTop20: _columnDefinitions.selectTop20 ? _columnDefinitions.selectTop20 : false,
+        selectTop25: _columnDefinitions.selectTop25 ? _columnDefinitions.selectTop25 : false,
         selectTop1000: _columnDefinitions.selectTop1000 ? _columnDefinitions.selectTop1000 : false
       };
     }
