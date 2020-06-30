@@ -2857,12 +2857,12 @@ if (typeof Slick === "undefined") {
 
         function handleMouseWheel(event, delta, deltaX, deltaY) {
             // Enable scrolling within rowlevel menu
-            if ($(event.target).parent('.rowlevel-content').size() > 0 ||
-              $(event.target).parent().parent('.rowlevel-content').size() > 0 ||
-              $(event.target).parent().parent().parent('.rowlevel-content').size() > 0 ||
-              $(event.target).parent().parent().parent().parent('.rowlevel-content').size() > 0 ||
-              $(event.target).parent().parent().parent().parent().parent('.rowlevel-content').size() > 0 ||
-              $(event.target).parent().parent().parent().parent().parent().parent('.rowlevel-content').size() > 0
+            if ($(event.target).parent('.rowlevel-content').length > 0 ||
+              $(event.target).parent().parent('.rowlevel-content').length > 0 ||
+              $(event.target).parent().parent().parent('.rowlevel-content').length > 0 ||
+              $(event.target).parent().parent().parent().parent('.rowlevel-content').length > 0 ||
+              $(event.target).parent().parent().parent().parent().parent('.rowlevel-content').length > 0 ||
+              $(event.target).parent().parent().parent().parent().parent().parent('.rowlevel-content').length > 0
               ) {
               return;
             }
