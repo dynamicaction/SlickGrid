@@ -116,6 +116,7 @@ if (typeof Slick === "undefined") {
 
         // private
         var initialized = false;
+        var isResizing = false;
         var $container;
         var uid = "slickgrid_" + Math.round(1000000 * Math.random());
         var self = this;
@@ -872,6 +873,10 @@ if (typeof Slick === "undefined") {
 
         function setupColumnSort() {
             $headers.click(function (e) {
+                if (isResizing) {
+                    isResizing = false;
+                    return;
+                }
                 // temporary workaround for a bug in jQuery 1.7.1
                 // (http://bugs.jquery.com/ticket/11328)
                 e.metaKey = e.metaKey || e.ctrlKey;
@@ -1029,6 +1034,7 @@ if (typeof Slick === "undefined") {
             if (firstResizable === undefined) {
                 return;
             }
+
             columnElements.each(function (i, e) {
                 if (i < firstResizable || (options.forceFitColumns && i >= lastResizable)) {
                     return;
@@ -1040,6 +1046,8 @@ if (typeof Slick === "undefined") {
                         if (!getEditorLock().commitCurrentEdit()) {
                             return false;
                         }
+
+                        isResizing = true;
 
                         $(document.body).trigger("mousedown");
 
